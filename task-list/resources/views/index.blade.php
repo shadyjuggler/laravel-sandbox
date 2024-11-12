@@ -2,7 +2,7 @@
 
 @section('title', 'The list of tasks')
 
-@section('name')
+@section('content')
     @forelse ($tasks as $task)
         <div>
             <a href={{ route('tasks.show', ['id' => $task->id]) }}>
