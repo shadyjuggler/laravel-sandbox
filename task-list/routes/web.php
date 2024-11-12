@@ -23,8 +23,7 @@ Route::get('/tasks/{id}', function ($id) {
     return view('show', [
         'task' => Task::findOrFail($id)
     ]);
-
-})->name('tasks.show'); 
+})->name('tasks.show');
 
 Route::post('/tasks', function (Request $request) {
     $data = $request->validate([
@@ -40,7 +39,8 @@ Route::post('/tasks', function (Request $request) {
 
     $task->save();
 
-    return redirect()->route('tasks.show', ['id' => $task->id]);
+    return redirect()->route('tasks.show', ['id' => $task->id])
+        ->with('success', 'Task created successfully');
 })->name('tasks.store');
 
 
