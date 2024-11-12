@@ -55,12 +55,20 @@ $tasks = [
     ),
 ];
 
-Route::get('/', function () use ($tasks) {
+Route::get('/', function () {
+    return redirect()->route('tasks.index');
+});
+
+Route::get('/tasks', function () use ($tasks) {
     return view('index', [
         'tasks' => $tasks
     ]);
 })->name('tasks.index');
 
-Route::get('/{id}', function ($id) {
+Route::get('tasks/{id}', function ($id) {
     return 'one single task';
 })->name('tasks.show'); 
+
+Route::fallback(function () {
+    return "Not found";
+});
