@@ -13,6 +13,6 @@
     <p>{{ $task->updated_at }}</p>
 
     <div>
-        <a href={{route('tasks.edit', ['id' => $task->id])}}>Edit...</a>
+        <a href={{route('tasks.edit', ['task' => $task->id])}}>Edit...</a>
     </div>
 @endsection
