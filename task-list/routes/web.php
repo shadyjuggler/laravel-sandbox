@@ -60,3 +60,9 @@ Route::delete('/tasks/{task}', function (Task $task) {
 Route::fallback(function () {
     return "Not found";
 });
+
+Route::put('tasks/{task}/toggle-complete', function(Task $task) {
+    $task->toggleComplete();
+
+    return redirect()->back();
+})->name('tasks.toggle-complete');
