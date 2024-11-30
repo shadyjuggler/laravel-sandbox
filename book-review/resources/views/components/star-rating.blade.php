@@ -1,3 +1,7 @@
-<div>
-    <!-- Happiness is not something readymade. It comes from your own actions. - Dalai Lama -->
-</div>
+@if ($rating)
+    @for ($i = 1; $i <= 5; $i++)
+        {{$i <= round($rating) ? '★' : '☆'}}
+    @endfor
+@else
+    No rating yet
+@endif
