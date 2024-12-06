@@ -15,3 +15,10 @@ Route::resource('books', BookController::class)
 Route::resource('books.reviews', ReviewController::class)
     ->scoped(['review' => 'book'])
     ->only(['create', 'store']);
+
+Route::get('books/{book}/reviews/create', [ReviewController::class, 'create'])
+    ->name('books.reviews.create');
+
+Route::post('books/{book}/reviews', [ReviewController::class, 'store'])
+    ->name('books.reviews.store')
+    ->middleware('throttle:reviews');
