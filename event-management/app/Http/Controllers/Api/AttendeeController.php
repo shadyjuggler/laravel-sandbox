@@ -18,7 +18,7 @@ class AttendeeController extends Controller
    
     public function index(Event $event)
     {
-
+        Gate::authorize('viewAny', Attendee::class);
         $attendees = $this->loadRelationships(
             $event->attendees()->latest()
         );
@@ -30,6 +30,7 @@ class AttendeeController extends Controller
 
     public function store(Request $request, Event $event)
     {   
+        Gate::authorize('create', Attendee::class);
         $attendee = $this->loadRelationships(
             $event->attendees()->create([
                 'user_id' => 1
@@ -42,6 +43,7 @@ class AttendeeController extends Controller
    
     public function show(Event $event, Attendee $attendee)
     {
+        Gate::authorize('view', $attendee);
         return new AttendeeResource(
             $this->loadRelationships($attendee)
         );
@@ -56,7 +58,7 @@ class AttendeeController extends Controller
  
     public function destroy(Event $event, Attendee $attendee)
     {
-        Gate::authorize('delete-attendee', [$event, $attendee]);
+        Gate::authorize('delete', $attendee);
         $attendee->delete();
 
         return response(status: 204);
