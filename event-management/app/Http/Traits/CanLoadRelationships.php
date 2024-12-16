@@ -12,7 +12,7 @@ trait CanLoadRelationships
     public function loadRelationships(
         Model|QueryBuilder|EloquentBuilder|HasMany $for,
         ?array $relations = null
-    ): Model|QueryBuilder|EloquentBuilder {
+    ): Model|QueryBuilder|EloquentBuilder|HasMany {
         $relations = $relations ?? $this->relations ?? [];
 
         foreach ($relations as $relation) {

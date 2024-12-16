@@ -7,12 +7,15 @@ use App\Http\Resources\EventResource;
 use App\Http\Traits\CanLoadRelationships;
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class EventController extends Controller
 {
     use CanLoadRelationships;
 
     private array $relations = ['user', 'attendees', 'attendees.user'];
+
+
 
     public function index()
     {
@@ -32,7 +35,7 @@ class EventController extends Controller
                 'start_time' => 'required|date',
                 'end_time' => 'required|date|after:start_time',
             ]),
-            'user_id' => 1 // for now to avoid authentication check, because it not ready
+            'user_id' => $request->user()->id
         ]);
 
         return new EventResource($this->loadRelationships($event));
@@ -51,6 +54,8 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $event)
     {
+        Gate::authorize('update-event', $event);
+
         $event->update(
             $request->validate([
                 'name' => 'sometimes|string|max:255',
