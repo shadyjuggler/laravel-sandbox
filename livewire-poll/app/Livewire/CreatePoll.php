@@ -40,7 +40,7 @@ class CreatePoll extends Component
     {
         $this->validateOnly($propertyName);
     }
-    
+
     public function createPoll()
     {
         $this->validate();
@@ -54,5 +54,7 @@ class CreatePoll extends Component
         );
 
         $this->reset(['title', 'options']);
+
+        $this->dispatch('pollCreated');
     }
 }
