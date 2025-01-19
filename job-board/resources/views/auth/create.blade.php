@@ -18,11 +18,11 @@
 
             <div class="mb-8">
                 <label
-                    for="pswd"
+                    for="password"
                     class="mb-2 block w-full text-sm font-medium text-slate-900"
                 >Password</label>
                 <x-text-input
-                    name="pswd"
+                    name="password"
                     type="password"
                 />
             </div>
