@@ -13,6 +13,7 @@ class JobController extends Controller
     public function index()
     {
         $jobs = Job::query();
+
         $jobs->when(request('search'), function ($query) {
             $query->where(function ($query) {
                 $query->where('title', 'like', '%' . request('search') . '%')
@@ -22,11 +23,12 @@ class JobController extends Controller
             $query->where('salary', '>=', request('min_salary'));
         })->when(request('max_salary'), function ($query) {
             $query->where('salary', '<=', request('max_salary'));
-        })->when(request('experience'), function($query) {
+        })->when(request('experience'), function ($query) {
             $query->where('experience', request('experience'));
-        })->when(request('category'), function($query) {
+        })->when(request('category'), function ($query) {
             $query->where('category', request('category'));
         });
+
         return view('jobs.index', ['jobs' => $jobs->get()]);
     }
 

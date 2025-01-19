@@ -13,7 +13,9 @@
         </div>
         <div class="flex gap-2 text-xs">
             <x-tag>
-                {{ Str::ucfirst($job->experience) }}
+                <a href="{{route('jobs.index', ['experience' => $job->experience])}}">
+                    {{ Str::ucfirst($job->experience) }}
+                </a>
             </x-tag>
             <x-tag>
                 {{ $job->category }}
