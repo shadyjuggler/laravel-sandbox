@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -17,12 +18,23 @@ class Job extends Model
     public static array $experience = ['entry', 'intermediate', 'senior'];
     public static array $category = ['IT', 'Finance', 'Sales', 'Marketing'];
 
-    public function employer(): BelongsTo {
+    public function employer(): BelongsTo
+    {
         return $this->belongsTo(Employer::class);
     }
 
-    public function jobApplications(): HasMany {
+    public function jobApplications(): HasMany
+    {
         return $this->hasMany(JobApplication::class);
+    }
+
+    public function hasUserApplied(Authenticatable|User|int $user): bool
+    {
+        return $this->where('id', $this->id)
+            ->whereHas(
+                'jobApplications',
+                fn($query) => $query->where('user_id', '=', $user->id ?? $user)
+            )->exists();
     }
 
     public function scopeFilter(
@@ -35,7 +47,7 @@ class Job extends Model
                     $query->where('title', 'like', '%' . $search . '%')
                         ->orWhere('descr', 'like', '%' . $search . '%')
                         ->orWhereHas('employer', function ($query) use ($search) {
-                            $query->where('company_name', 'like' , '%' . $search . '%');
+                            $query->where('company_name', 'like', '%' . $search . '%');
                         });
                 });
             })
